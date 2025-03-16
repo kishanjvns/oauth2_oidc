@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: user
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080
+          jwk-set-uri: http://localhost:8080/oauth2/jwks
+
+server:
+  port: 8091
+  servlet:
+    context-path: /userservice

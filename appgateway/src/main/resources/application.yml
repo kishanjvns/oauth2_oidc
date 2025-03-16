@@ -1,0 +1,35 @@
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+server:
+  port: 8090
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          my-client:
+            provider: my-provider
+            client-id: client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect_uri: http://localhost:8090/login/oauth2/code/my-client
+            scope: openid
+        provider:
+          my-provider:
+            authorization-uri: http://localhost:8080/oauth2/authorize
+            token-uri: http://localhost:8080/oauth2/token
+            issuer-uri: http://localhost:8080
+  application:
+    name: appgateway
+  cloud:
+    gateway:
+      routes:
+        - id: userServiceRoute
+          uri: http://localhost:8091/userservice/
+          predicates:
+            - Path=/userservice/**
+          filters:
+            - TokenRelay
